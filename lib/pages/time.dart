@@ -6,18 +6,7 @@ class Time extends StatefulWidget {
 }
 
 class _TimeState extends State<Time> {
-  void getData() async{
-    await Future.delayed(
-      Duration(seconds: 3),
-      () => {print('Data Fetched')},
-    );
-  }
 
-  @override
-  void initState() {
-    super.initState();
-    getData();
-  }
 
   @override
   Widget build(BuildContext context) {
