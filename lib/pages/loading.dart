@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-
+import 'package:flutter_timeapp/services/world_time.dart';
 
 class Loading extends StatefulWidget {
   @override
@@ -10,36 +7,29 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-  void getData() async{
-    // await Future.delayed(
-    //   Duration(seconds: 3),
-    //       () => {print('Data Fetched')},
-    // );
-
-    Response response = await get('http://worldtimeapi.org/api/timezone/Europe/Istanbul');
-    Map data =  jsonDecode(response.body);
-
-    String datetime = data['datetime'];
-    String offset = data['utc_offset'];
-
-
-
-    DateTime currentTime = DateTime.parse(datetime);
-
-    int timeOffset = int.parse(offset.substring(1,3));
-    currentTime = currentTime.add(Duration(hours: timeOffset));
-    print(datetime);
-    print(offset);
-    print(currentTime);
+  String time = 'Loading...';
+  void handleWorldTime() async {
+    WorldTime worldTime = WorldTime(location: 'Istanbul');
+    await worldTime.getData();
+    Navigator.pushReplacementNamed(context, '/home', arguments: {
+      'location': worldTime.location,
+      'time': worldTime.time
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    getData();
+    handleWorldTime();
   }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Text('Loading...'),);
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.all(50),
+        child: Center(child: Text(time)),
+      ),
+    );
   }
 }
