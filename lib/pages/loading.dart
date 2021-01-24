@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_timeapp/services/world_time.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Loading extends StatefulWidget {
   @override
@@ -11,10 +12,12 @@ class _LoadingState extends State<Loading> {
   void handleWorldTime() async {
     WorldTime worldTime = WorldTime(location: 'Istanbul');
     await worldTime.getData();
-    Navigator.pushReplacementNamed(context, '/home', arguments: {
-      'location': worldTime.location,
-      'time': worldTime.time
-    });
+    await Future.delayed(
+      Duration(seconds: 3),
+      () => {print('Data Fetched')},
+    );
+    Navigator.pushReplacementNamed(context, '/home',
+        arguments: {'location': worldTime.location, 'time': worldTime.time});
   }
 
   @override
@@ -27,8 +30,20 @@ class _LoadingState extends State<Loading> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(50),
-        child: Center(child: Text(time)),
+        padding: const EdgeInsets.only(bottom: 200, top: 100),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+                child: SpinKitWave(
+              color: Colors.grey[800],
+              size: 50.0,
+              duration: Duration(seconds: 1),
+            )),
+            SizedBox(height: 20),
+            Text("Yükleniyor..."),
+          ],
+        ),
       ),
     );
   }

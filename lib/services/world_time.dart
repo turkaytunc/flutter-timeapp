@@ -12,10 +12,7 @@ class WorldTime {
   String get getTime => time;
 
   Future<void> getData() async{
-    // await Future.delayed(
-    //   Duration(seconds: 3),
-    //       () => {print('Data Fetched')},
-    // );
+
 
    try{
      Response response = await get('http://worldtimeapi.org/api/timezone/Europe/${location}');
