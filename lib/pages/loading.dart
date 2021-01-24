@@ -13,7 +13,7 @@ class _LoadingState extends State<Loading> {
     WorldTime worldTime = WorldTime(location: 'Istanbul');
     await worldTime.getData();
     await Future.delayed(
-      Duration(seconds: 3),
+      Duration(seconds: 1),
       () => {print('Data Fetched')},
     );
     Navigator.pushReplacementNamed(context, '/home',
